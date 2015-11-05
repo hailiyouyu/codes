@@ -38,6 +38,37 @@ void KnightTour(vector<point_t>& res, int i, int j, int k) {
   }
 }
 
+void KnightTour(vector<vector<int>>& res, int i, int j, int k) {
+  if (k == res.size() * res.size()) {
+    for (auto& row : res) {
+      for (auto& col : row)
+        cout << col << " ";
+      cout << '\n';
+    }
+    cout << "------------------------\n";
+  } else {
+    for (int r = 0; r < 8; ++r) {
+      int new_i = i + row[r];
+      int new_j = j + col[r];
+      bool legal = false;
+      if (new_i >= 0 && new_i < res.size() && new_j >= 0 && new_j < res.size() && res[new_i][new_j] == -1) {
+        res[new_i][new_j] = k;
+        KnightTour(res, new_i, new_j, k+1);
+        legal = true;
+      }
+      if (legal) {
+        res[new_i][new_j] = -1;
+      }
+    }
+  }
+}
+
+void KnightTour(int n) {
+  vector<vector<int>> res(n, vector<int>(n, -1));
+  res[0][0] = 0;
+  KnightTour(res, 0, 0, 1);
+}
+
 void KnightTour() {
   vector<point_t> res;
   board[0][0] = true;
@@ -45,6 +76,6 @@ void KnightTour() {
 }
 
 int main() {
-  KnightTour();
+  KnightTour(8);
   return 0;
 }
