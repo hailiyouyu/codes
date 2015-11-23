@@ -47,8 +47,27 @@ public:
       std::cout << '\n';
     }
   }
+  size_type VSize() const {
+    return _matrix.size();
+  }
+  bool PathExists(vertex_type v, vertex_type w) {
+    std::vector<bool> visited(_matrix.size(), false);
+    return PathExists(v, w, visited);
+  }
 private:
   std::vector<std::vector<bool>> _matrix;
+  bool PathExists(vertex_type v, vertex_type w, std::vector<bool>& visited) {
+    if (v == w)
+      return true;
+    visited[v] = true;
+    for (auto i = 0; i != _matrix.size(); ++i)
+      if (_matrix[v][i])
+        if (!visited[i])
+          if (PathExists(i, w, visited))
+            return true;
+    return false;
+  }
+
 };
 }
 }
